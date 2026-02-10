@@ -8,7 +8,20 @@ running = True
 
 case_size = 90
 
-white_pawn = pygame.image.load("assets/white_pawn.png")
+board = []
+
+def	init_board():
+    global board
+    board = [
+        ["r", "n", "b", "k", "q", "b", "n", "r"],
+        ["p", "p", "p", "p", "p", "p", "p", "p"],
+        ["0", "0", "0", "0", "0", "0", "0", "0"],
+        ["0", "0", "0", "0", "0", "0", "0", "0"],
+        ["0", "0", "0", "0", "0", "0", "0", "0"],
+        ["0", "0", "0", "0", "0", "0", "0", "0"],
+        ["P", "P", "P", "P", "P", "P", "P", "P"],
+        ["R", "N", "B", "Q", "K", "B", "N", "R"]
+	]
 
 def detect_case_x(pos: tuple[int, int]):
     case = pos[0]
@@ -41,15 +54,15 @@ def render_board():
             rowPair = True
 
 while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        if event.type == pygame.MOUSEBUTTONUP:
-            pos = pygame.mouse.get_pos()
-            print(detect_case_x(pos), detect_case_y(pos))
-    render_board()
-    window.blit(white_pawn, (45, 45))
-    pygame.display.flip()
-    clock.tick(60)
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
+			running = False
+		if event.type == pygame.MOUSEBUTTONUP:
+			pos = pygame.mouse.get_pos()
+			print(board[detect_case_y(pos) - 1][detect_case_x(pos) - 1])
+	render_board()
+	init_board()
+	pygame.display.flip()
+	clock.tick(60)
 
 pygame.quit()
