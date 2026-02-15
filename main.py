@@ -68,6 +68,40 @@ def render_board():
 					pygame.draw.rect(window, "beige", (i * case_size, j * case_size, case_size, case_size))
 			rowPair = True
 
+def	detect_selected_piece(pos: tuple[int, int], board):
+	y = int(pos[0] / 90)
+	x = int(pos[1] / 90)
+	moves_list = []
+
+	if board[x][y] == "0":
+		return moves_list
+	if board[x][y] == "p" or board[x][y] == "P":
+		moves_list = pawn_possible_move(pos, board)
+		return moves_list
+	return moves_list
+
+def	check_move(pos: tuple[int, int], moves_list):
+	for move in moves_list:
+		if int(pos[1] / 90) == move[0] and int(pos[0] / 90) == move[1]:
+			return 1
+	return 0
+
+def	detect_click(board):
+	clicked = False
+	pos = pygame.mouse.get_pos()
+	moves_list = detect_selected_piece(pos, board)
+	while clicked == False:
+		for event in pygame.event.get():
+			if event.type == pygame.MOUSEBUTTONUP:
+				pos_second_click = pygame.mouse.get_pos()
+				if (check_move(pos_second_click, moves_list) == 1):
+					# move_pieces()
+					print(check_move(pos_second_click, moves_list))
+					clicked = True
+				else:
+					print(check_move(pos_second_click, moves_list))
+					detect_click(board)
+
 def	main():
 	pygame.init()
 	running = True
@@ -79,8 +113,7 @@ def	main():
 			if event.type == pygame.QUIT:
 				running = False
 			if event.type == pygame.MOUSEBUTTONUP:
-				pos = pygame.mouse.get_pos()
-				print(pawn_possible_move(pos, board))
+				detect_click(board)
 		render_board()
 		pygame.display.flip()
 		clock.tick(60)
