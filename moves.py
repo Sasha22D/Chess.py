@@ -1,3 +1,5 @@
+from utils import is_white_piece
+
 def pawn_possible_moves(pos : tuple[int, int], board):
 	moves_list = []
 	y = int(pos[0] / 90)
