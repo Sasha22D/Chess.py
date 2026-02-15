@@ -1,4 +1,5 @@
 import pygame
+from moves import pawn_possible_moves, rook_possible_moves, bishop_possible_moves
 
 window = pygame.display.set_mode((720, 720))
 pygame.display.set_caption("Chess.py")
@@ -11,55 +12,12 @@ def	init_board(board):
 		["p", "p", "p", "p", "p", "p", "p", "p"],
 		["d", "0", "d", "0", "0", "0", "0", "0"],
 		["0", "0", "0", "0", "R", "0", "0", "0"],
-		["0", "0", "0", "0", "0", "0", "0", "0"],
+		["0", "0", "b", "0", "0", "0", "0", "0"],
 		["0", "0", "0", "0", "0", "0", "0", "0"],
 		["P", "P", "P", "P", "P", "P", "P", "P"],
 		["R", "N", "B", "K", "Q", "B", "N", "R"]
 	]
 	return board
-
-def pawn_possible_move(pos : tuple[int, int], board):
-	moves_list = []
-	y = int(pos[0] / 90)
-	x = int(pos[1] / 90)
-	if board[x][y] == "p":
-		if board[x + 1][y] == "0":
-			moves_list.append([x + 1, y])
-		if y - 1 >= 0 and board[x + 1][y - 1] != "0":
-			moves_list.append([x + 1, y - 1])
-		if y + 1 <= 7 and board[x + 1][y + 1] != "0":
-			moves_list.append([x + 1, y + 1])
-	elif board[x][y] == "P":
-		if board[x - 1][y] == "0":
-			moves_list.append([x - 1, y])
-		if y - 1 >= 0 and board[x - 1][y - 1] != "0":
-			moves_list.append([x - 1, y - 1])
-		if y + 1 <= 7 and board[x - 1][y + 1] != "0":
-			moves_list.append([x - 1, y + 1])
-	return moves_list
-
-def	rook_possible_move(pos: tuple[int, int], board):
-	moves_list = []
-	y = int(pos[0] / 90)
-	x = int(pos[1] / 90)
-
-	i = x + 1
-	while i <= 7 and board[i][y] == "0":
-		moves_list.append([i, y])
-		i += 1
-	i = x - 1
-	while i >= 0 and board[i][y] == "0":
-		moves_list.append([i, y])
-		i -= 1
-	i = y + 1
-	while i <= 7 and board[x][i] == "0":
-		moves_list.append([x, i])
-		i += 1
-	i = y - 1
-	while i >= 0 and board[x][i] == "0":
-		moves_list.append([x, i])
-		i -= 1
-	return moves_list
 
 def detect_case_y(pos: tuple[int, int]):
 	case = pos[0]
@@ -99,9 +57,11 @@ def	detect_selected_piece(pos: tuple[int, int], board):
 	if board[x][y] == "0":
 		return moves_list
 	if board[x][y] == "p" or board[x][y] == "P":
-		moves_list = pawn_possible_move(pos, board)
+		moves_list = pawn_possible_moves(pos, board)
 	if board[x][y] == "r" or board[x][y] == "R":
-		moves_list = rook_possible_move(pos, board)
+		moves_list = rook_possible_moves(pos, board)
+	if board[x][y] == "b" or board[x][y] == "b":
+		moves_list = bishop_possible_moves(pos, board)
 	return moves_list
 
 def	check_move(pos: tuple[int, int], moves_list):
