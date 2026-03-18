@@ -10,9 +10,9 @@ def	init_board(board):
 	board = [
 		["r", "n", "b", "q", "k", "b", "n", "r"],
 		["p", "p", "p", "p", "p", "p", "p", "p"],
-		["d", "0", "d", "0", "0", "0", "0", "0"],
-		["0", "0", "0", "0", "R", "0", "0", "0"],
-		["0", "0", "b", "0", "0", "0", "0", "0"],
+		["0", "0", "0", "0", "0", "0", "0", "0"],
+		["0", "0", "0", "0", "0", "0", "0", "0"],
+		["0", "0", "0", "0", "0", "0", "0", "0"],
 		["0", "0", "0", "0", "0", "0", "0", "0"],
 		["P", "P", "P", "P", "P", "P", "P", "P"],
 		["R", "N", "B", "K", "Q", "B", "N", "R"]
@@ -60,7 +60,7 @@ def	detect_selected_piece(pos: tuple[int, int], board):
 		moves_list = pawn_possible_moves(pos, board)
 	if board[x][y] == "r" or board[x][y] == "R":
 		moves_list = rook_possible_moves(pos, board)
-	if board[x][y] == "b" or board[x][y] == "b":
+	if board[x][y] == "b" or board[x][y] == "B":
 		moves_list = bishop_possible_moves(pos, board)
 	return moves_list
 
@@ -86,7 +86,7 @@ def	detect_click(board):
 					clicked = True
 				else:
 					print(check_move(pos_second_click, moves_list))
-					detect_click(board)
+					clicked = True
 
 def	main():
 	pygame.init()
@@ -94,6 +94,9 @@ def	main():
 	board = []
 
 	board = init_board(board)
+	for row in range(0, 8):
+		print(row + 1, end='')
+		print(board[row])
 	while running:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
