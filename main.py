@@ -1,5 +1,7 @@
 import pygame
-from moves import pawn_possible_moves, rook_possible_moves, bishop_possible_moves
+from pawn_moves import pawn_possible_moves
+from bishop_moves import bishop_possible_moves
+from rook_moves import rook_possible_moves
 
 window = pygame.display.set_mode((720, 720))
 pygame.display.set_caption("Chess.py")
