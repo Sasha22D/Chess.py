@@ -21,22 +21,6 @@ def	init_board(board):
 	]
 	return board
 
-def detect_case_y(pos: tuple[int, int]):
-	case = pos[0]
-	i = 0
-	while (case > 0):
-		case -= case_size
-		i += 1
-	return i
-
-def detect_case_x(pos: tuple[int, int]):
-	case = pos[1]
-	i = 0
-	while (case > 0):
-		case -= case_size
-		i += 1
-	return i
-
 def render_board():
 	rowPair = True
 	for i in range(8):
@@ -52,25 +36,28 @@ def render_board():
 			rowPair = True
 
 def	detect_selected_piece(pos: tuple[int, int], board):
-	y = int(pos[0] / 90)
-	x = int(pos[1] / 90)
 	moves_list = []
+	col = int(pos[0] / 90)
+	row = int(pos[1] / 90)
 
-	if board[x][y] == "0":
+	if board[row][col] == "0":
 		return moves_list
-	if board[x][y] == "p" or board[x][y] == "P":
+	if board[row][col] == "p" or board[row][col] == "P":
 		moves_list = pawn_possible_moves(pos, board)
-	if board[x][y] == "r" or board[x][y] == "R":
+	if board[row][col] == "r" or board[row][col] == "R":
 		moves_list = rook_possible_moves(pos, board)
-	if board[x][y] == "b" or board[x][y] == "B":
+	if board[row][col] == "b" or board[row][col] == "B":
 		moves_list = bishop_possible_moves(pos, board)
 	return moves_list
 
 def	check_move(pos: tuple[int, int], moves_list):
+	col = int(pos[0] / 90)
+	row = int(pos[1] / 90)
+
 	if moves_list == None:
 		return 0
 	for move in moves_list:
-		if int(pos[1] / 90) == move[0] and int(pos[0] / 90) == move[1]:
+		if row == move[0] and col == move[1]:
 			return 1
 	return 0
 
@@ -78,6 +65,7 @@ def	detect_click(board):
 	clicked = False
 	pos = pygame.mouse.get_pos()
 	moves_list = detect_selected_piece(pos, board)
+
 	while clicked == False:
 		for event in pygame.event.get():
 			if event.type == pygame.MOUSEBUTTONUP:

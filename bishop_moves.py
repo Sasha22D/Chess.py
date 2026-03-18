@@ -79,7 +79,10 @@ def	white_bishop_possible_moves(pos: tuple[int, int], board):
 	return moves_list
 
 def bishop_possible_moves(pos: tuple[int, int], board):
-	if board[int(pos[1] / 90)][int(pos[0] / 90)] == "B":
+	col = int(pos[0] / 90)
+	row = int(pos[1] / 90)
+
+	if board[row][col] == "B":
 		return black_bishop_possible_moves(pos, board)
 	else:
 		return white_bishop_possible_moves(pos, board)
