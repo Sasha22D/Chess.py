@@ -70,6 +70,16 @@ def	check_move(pos: tuple[int, int], moves_list):
             return 1
     return 0
 
+def move_selected_piece(pos: tuple[int, int], pos_second_click: tuple[int, int], board):
+    col = int(pos[0] / 90)
+    row = int(pos[1] / 90)
+    col_second = int(pos_second_click[0] / 90)
+    row_second = int(pos_second_click[1] / 90)
+
+    board[row_second][col_second] = board[row][col]
+    board[row][col] = "0"
+    return board
+
 def	detect_click(board):
     clicked = False
     pos = pygame.mouse.get_pos()
@@ -80,12 +90,11 @@ def	detect_click(board):
             if event.type == pygame.MOUSEBUTTONUP:
                 pos_second_click = pygame.mouse.get_pos()
                 if (check_move(pos_second_click, moves_list) == 1):
-                    # move_pieces()
-                    print(check_move(pos_second_click, moves_list))
+                    board = move_selected_piece(pos, pos_second_click, board)
                     clicked = True
                 else:
-                    print(check_move(pos_second_click, moves_list))
                     clicked = True
+    return board
 
 def	main():
     pygame.init()
@@ -93,15 +102,16 @@ def	main():
     board = []
 
     board = init_board(board)
-    for row in range(0, 8):
-        print(row + 1, end='')
-        print(board[row])
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONUP:
                 detect_click(board)
+                print("\n")
+                for row in range(0, 8):
+                    print(row + 1, end='')
+                    print(board[row])
         render_board()
         pygame.display.flip()
         clock.tick(60)
