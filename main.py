@@ -4,6 +4,7 @@ from bishop_moves import bishop_possible_moves
 from rook_moves import rook_possible_moves
 from knight_moves import knight_possible_moves
 from queen_moves import queen_possible_moves
+from king_moves import king_possible_moves
 
 window = pygame.display.set_mode((720, 720))
 pygame.display.set_caption("Chess.py")
@@ -54,6 +55,8 @@ def	detect_selected_piece(pos: tuple[int, int], board):
         moves_list = knight_possible_moves(pos, board)
     if board[row][col] == "q" or board[row][col] == "Q":
         moves_list = queen_possible_moves(pos, board)
+    if board[row][col] == "k" or board[row][col] == "K":
+        moves_list = king_possible_moves(pos, board)
     return moves_list
 
 def	check_move(pos: tuple[int, int], moves_list):
