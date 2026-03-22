@@ -12,6 +12,8 @@ def black_pawn_possible_moves(pos : tuple[int, int], board):
             moves_list.append([row - 1, col - 1])
         if col + 1 <= 7 and is_white_piece(row - 1, col + 1, board):
             moves_list.append([row - 1, col + 1])
+    if row - 2 >= 0 and row == 6 and board[row - 2][col] == "0":
+        moves_list.append([row - 2, col])
     return moves_list
 
 def white_pawn_possible_moves(pos : tuple[int, int], board):
@@ -26,6 +28,8 @@ def white_pawn_possible_moves(pos : tuple[int, int], board):
             moves_list.append([row + 1, col - 1])
         if col + 1 <= 7 and is_black_piece(row + 1, col + 1, board):
             moves_list.append([row + 1, col + 1])
+    if row + 2 <= 7 and row == 1 and board[row + 2][col] == "0":
+        moves_list.append([row  + 2, col])
     return moves_list
 
 def pawn_possible_moves(pos: tuple[int, int], board):
