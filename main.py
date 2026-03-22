@@ -5,38 +5,7 @@ from rook_moves import rook_possible_moves
 from knight_moves import knight_possible_moves
 from queen_moves import queen_possible_moves
 from king_moves import king_possible_moves
-
-window = pygame.display.set_mode((720, 720))
-pygame.display.set_caption("Chess.py")
-clock = pygame.time.Clock()
-case_size = 90
-
-def	init_board(board):
-    board = [
-        ["r", "n", "b", "q", "k", "b", "n", "r"],
-        ["p", "p", "p", "p", "p", "p", "p", "p"],
-        ["0", "0", "0", "0", "0", "0", "0", "0"],
-        ["0", "0", "0", "0", "0", "0", "0", "0"],
-        ["0", "0", "0", "0", "0", "0", "0", "0"],
-        ["0", "0", "0", "0", "0", "0", "0", "0"],
-        ["P", "P", "P", "P", "P", "P", "P", "P"],
-        ["R", "N", "B", "K", "Q", "B", "N", "R"]
-    ]
-    return board
-
-def render_board():
-    rowPair = True
-    for i in range(8):
-        if rowPair == True:
-            for j in range(8):
-                if j % 2 == 0:
-                    pygame.draw.rect(window, "beige", (i * case_size, j * case_size, case_size, case_size))
-            rowPair = False
-        elif rowPair == False:
-            for j in range(8):
-                if j % 2 != 0:
-                    pygame.draw.rect(window, "beige", (i * case_size, j * case_size, case_size, case_size))
-            rowPair = True
+from init_game import init_board, render_board, clock
 
 def	detect_selected_piece(pos: tuple[int, int], board):
     moves_list = []
@@ -80,9 +49,8 @@ def move_selected_piece(pos: tuple[int, int], pos_second_click: tuple[int, int],
     board[row][col] = "0"
     return board
 
-def	detect_click(board):
+def	detect_click(pos: tuple[int, int], board):
     clicked = False
-    pos = pygame.mouse.get_pos()
     moves_list = detect_selected_piece(pos, board)
 
     while clicked == False:
@@ -93,6 +61,7 @@ def	detect_click(board):
                     board = move_selected_piece(pos, pos_second_click, board)
                     clicked = True
                 else:
+                    detect_click(pos_second_click, board)
                     clicked = True
     return board
 
@@ -102,17 +71,15 @@ def	main():
     board = []
 
     board = init_board(board)
+    render_board(board)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONUP:
-                detect_click(board)
-                print("\n")
-                for row in range(0, 8):
-                    print(row + 1, end='')
-                    print(board[row])
-        render_board()
+                pos = pygame.mouse.get_pos()
+                detect_click(pos, board)
+                render_board(board)
         pygame.display.flip()
         clock.tick(60)
 
