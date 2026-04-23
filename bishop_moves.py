@@ -5,8 +5,7 @@ def bishop_possible_moves(pos: tuple[int, int], board: list[list[str]]) -> list[
     col = pos[0] // CASE_SIZE
     row = pos[1] // CASE_SIZE
     is_white = is_white_piece(row, col, board)
-    moves = []
-
+    moves_list = []
     directions = [(1, 1), (-1, -1), (1, -1), (-1, 1)]
 
     for delta_row, delta_col in directions:
@@ -14,13 +13,13 @@ def bishop_possible_moves(pos: tuple[int, int], board: list[list[str]]) -> list[
 
         while 0 <= current_row <= 7 and 0 <= current_col <= 7:
             if is_empty_case(current_row, current_col, board):
-                moves.append([current_row, current_col])
+                moves_list.append([current_row, current_col])
                 current_row += delta_row
                 current_col += delta_col
             elif is_white_piece(current_row, current_col, board) != is_white:
-                moves.append([current_row, current_col])
+                moves_list.append([current_row, current_col])
                 break
             else:
                 break
 
-    return moves
+    return moves_list
