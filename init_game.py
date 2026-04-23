@@ -3,7 +3,7 @@ import pygame
 window = pygame.display.set_mode((720, 720))
 pygame.display.set_caption("Chess.py")
 clock = pygame.time.Clock()
-case_size = 90
+CASE_SIZE = 90
 
 white_pawn_image = pygame.image.load("./assets/wp.png").convert_alpha()
 white_pawn_image = pygame.transform.scale(white_pawn_image, (90, 90))
@@ -83,15 +83,15 @@ def render_board(board):
         if rowPair == True:
             for j in range(8):
                 if j % 2 == 0:
-                    pygame.draw.rect(window, "beige", (i * case_size, j * case_size, case_size, case_size))
+                    pygame.draw.rect(window, "beige", (i * CASE_SIZE, j * CASE_SIZE, CASE_SIZE, CASE_SIZE))
                 else:
-                    pygame.draw.rect(window, "aquamarine4", (i * case_size, j * case_size, case_size, case_size))
+                    pygame.draw.rect(window, "aquamarine4", (i * CASE_SIZE, j * CASE_SIZE, CASE_SIZE, CASE_SIZE))
             rowPair = False
         elif rowPair == False:
             for j in range(8):
                 if j % 2 != 0:
-                    pygame.draw.rect(window, "beige", (i * case_size, j * case_size, case_size, case_size))
+                    pygame.draw.rect(window, "beige", (i * CASE_SIZE, j * CASE_SIZE, CASE_SIZE, CASE_SIZE))
                 else:
-                    pygame.draw.rect(window, "aquamarine4", (i * case_size, j * case_size, case_size, case_size))
+                    pygame.draw.rect(window, "aquamarine4", (i * CASE_SIZE, j * CASE_SIZE, CASE_SIZE, CASE_SIZE))
             rowPair = True
     render_pieces(board)
