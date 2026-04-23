@@ -1,58 +1,25 @@
-from utils import is_white_piece, is_black_piece
+from utils import is_white_piece, is_empty_case
+from init_game import CASE_SIZE
 
-def black_knight_possible_moves(pos: tuple[int, int], board):
+def knight_possible_moves(pos: tuple[int, int], board: list[list[str]]) -> list[list[int]]:
+    col = pos[0] // CASE_SIZE
+    row = pos[1] // CASE_SIZE
+    is_white = is_white_piece(row, col, board)
     moves_list = []
-    col = int(pos[0] / 90)
-    row = int(pos[1] / 90)
+    directions = [(2, 1), (2, -1), (-2, 1), (-2, -1), (1, 2), (1, -2), (-1, 2), (-1, -2)]
 
-    if row - 2 >= 0 and col - 1 >= 0 and (is_white_piece(row - 2, col - 1, board) or board[row - 2][col - 1] == "0"):
-        moves_list.append([row - 2, col - 1])
-    if row - 2 >= 0 and col + 1 <= 7 and (is_white_piece(row - 2, col + 1, board) or board[row - 2][col + 1] == "0"):
-        moves_list.append([row - 2, col + 1])
-    if row + 2 <= 7 and col + 1 <= 7 and (is_white_piece(row + 2, col + 1, board) or board[row + 2][col + 1] == "0"):
-        moves_list.append([row + 2, col + 1])
-    if row + 2 <= 7 and col - 1 >= 0 and (is_white_piece(row + 2, col - 1, board) or board[row + 2][col - 1] == "0"):
-        moves_list.append([row + 2, col - 1])
+    for delta_row, delta_col in directions:
+        current_row, current_col = row + delta_row, col + delta_col
 
-    if col - 2 >= 0 and row - 1 >= 0 and (is_white_piece(row - 1, col - 2, board) or board[row - 1][col - 2] == "0"):
-        moves_list.append([row - 1, col - 2])
-    if col - 2 >= 0 and row + 1 <= 7 and (is_white_piece(row + 1, col - 2, board) or board[row + 1][col - 2] == "0"):
-        moves_list.append([row + 1, col - 2])
-    if col + 2 <= 7 and row + 1 <= 7 and (is_white_piece(row + 1, col + 2, board) or board[row + 1][col + 2] == "0"):
-        moves_list.append([row + 1, col + 2])
-    if col + 2 <= 7 and row - 1 >= 0 and (is_white_piece(row - 1, col + 2, board) or board[row - 1][col + 2] == "0"):
-        moves_list.append([row - 1, col + 2])
+        while 0 <= current_row <= 7 and 0 <= current_col <= 7:
+            if is_empty_case(current_row, current_col, board):
+                moves_list.append([current_row, current_col])
+                current_row += delta_row
+                current_col += delta_col
+            elif is_white_piece(current_row, current_col, board) != is_white:
+                moves_list.append([current_row, current_col])
+                break
+            else:
+                break
+        
     return moves_list
-
-def white_knight_possible_moves(pos: tuple[int, int], board):
-    moves_list = []
-    col = int(pos[0] / 90)
-    row = int(pos[1] / 90)
-
-    if row - 2 >= 0 and col - 1 >= 0 and (is_black_piece(row - 2, col - 1, board) or board[row - 2][col - 1] == "0"):
-        moves_list.append([row - 2, col - 1])
-    if row - 2 >= 0 and col + 1 <= 7 and (is_black_piece(row - 2, col + 1, board) or board[row - 2][col + 1] == "0"):
-        moves_list.append([row - 2, col + 1])
-    if row + 2 <= 7 and col + 1 <= 7 and (is_black_piece(row + 2, col + 1, board) or board[row + 2][col + 1] == "0"):
-        moves_list.append([row + 2, col + 1])
-    if row + 2 <= 7 and col - 1 >= 0 and (is_black_piece(row + 2, col - 1, board) or board[row + 2][col - 1] == "0"):
-        moves_list.append([row + 2, col - 1])
-    
-    if col - 2 >= 0 and row - 1 >= 0 and (is_black_piece(row - 1, col - 2, board) or board[row - 1][col - 2] == "0"):
-        moves_list.append([row - 1, col - 2])
-    if col - 2 >= 0 and row + 1 <= 7 and (is_black_piece(row + 1, col - 2, board) or board[row + 1][col - 2] == "0"):
-        moves_list.append([row + 1, col - 2])
-    if col + 2 <= 7 and row + 1 <= 7 and (is_black_piece(row + 1, col + 2, board) or board[row + 1][col + 2] == "0"):
-        moves_list.append([row + 1, col + 2])
-    if col + 2 <= 7 and row - 1 >= 0 and (is_black_piece(row - 1, col + 2, board) or board[row - 1][col + 2] == "0"):
-        moves_list.append([row - 1, col + 2])
-    return moves_list
-
-def knight_possible_moves(pos: tuple[int, int], board):
-    col = int(pos[0] / 90)
-    row = int(pos[1] / 90)
-
-    if board[row][col] == "N":
-        return black_knight_possible_moves(pos, board)
-    else:
-        return white_knight_possible_moves(pos, board)
