@@ -1,72 +1,25 @@
-from utils import is_white_piece, is_black_piece
+from utils import is_white_piece, is_empty_case
+from init_game import CASE_SIZE
 
-def	black_rook_possible_moves(pos: tuple[int, int], board):
+def rook_possible_moves(pos: tuple[int, int], board: list[list[str]]) -> list[list[int]]:
+    col = pos[0] // CASE_SIZE
+    row = pos[1] // CASE_SIZE
+    is_white = is_white_piece(row, col, board)
     moves_list = []
-    col = int(pos[0] / 90)
-    row = int(pos[1] / 90)
+    directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
-    i = row + 1
-    while i <= 7 and board[i][col] == "0":
-        moves_list.append([i, col])
-        i += 1
-    if i <= 7 and is_white_piece(i, col, board):
-        moves_list.append([i, col])
-    i = row - 1
-    while i >= 0 and board[i][col] == "0":
-        moves_list.append([i, col])
-        i -= 1
-    if i >= 0 and is_white_piece(i, col, board):
-        moves_list.append([i, col])
-    i = col + 1
-    while i <= 7 and board[row][i] == "0":
-        moves_list.append([row, i])
-        i += 1
-    if i <= 7 and is_white_piece(row, i, board):
-        moves_list.append([row, i])
-    i = col - 1
-    while i >= 0 and board[row][i] == "0":
-        moves_list.append([row, i])
-        i -= 1
-    if i >= 0 and is_white_piece(row, i, board):
-        moves_list.append([row, i])
+    for delta_row, delta_col in directions:
+        current_row, current_col = row + delta_row, col + delta_col
+
+        while 0 <= current_row <= 7 and 0 <= current_col <= 7:
+            if is_empty_case(current_row, current_col, board):
+                moves_list.append([current_row, current_col])
+                current_row += delta_row
+                current_col += delta_col
+            elif is_white_piece(current_row, current_col, board) != is_white:
+                moves_list.append([current_row, current_col])
+                break
+            else:
+                break
+
     return moves_list
-
-def	white_rook_possible_moves(pos: tuple[int, int], board):
-    moves_list = []
-    col = int(pos[0] / 90)
-    row = int(pos[1] / 90)
-
-    i = row + 1
-    while i <= 7 and board[i][col] == "0":
-        moves_list.append([i, col])
-        i += 1
-    if i <= 7 and is_black_piece(i, col, board):
-        moves_list.append([i, col])
-    i = row - 1
-    while i >= 0 and board[i][col] == "0":
-        moves_list.append([i, col])
-        i -= 1
-    if i >= 0 and is_black_piece(i, col, board):
-        moves_list.append([i, col])
-    i = col + 1
-    while i <= 7 and board[row][i] == "0":
-        moves_list.append([row, i])
-        i += 1
-    if i <= 7 and is_black_piece(row, i, board):
-        moves_list.append([row, i])
-    i = col - 1
-    while i >= 0 and board[row][i] == "0":
-        moves_list.append([row, i])
-        i -= 1
-    if i >= 0 and is_black_piece(row, i, board):
-        moves_list.append([row, i])
-    return moves_list
-
-def rook_possible_moves(pos: tuple[int, int], board):
-    col = int(pos[0] / 90)
-    row = int(pos[1] / 90)
-
-    if board[row][col] == "R":
-        return black_rook_possible_moves(pos, board)
-    else:
-        return white_rook_possible_moves(pos, board)
