@@ -1,15 +1,17 @@
-from bishop_moves import white_bishop_possible_moves, black_bishop_possible_moves
-from rook_moves import white_rook_possible_moves, black_rook_possible_moves
+from bishop_moves import bishop_possible_moves
+from rook_moves import rook_possible_moves
+from init_game import CASE_SIZE
 
-def queen_possible_moves(pos: tuple[int, int], board):
+def queen_possible_moves(pos: tuple[int, int], board: list[list[str]]) -> list[list[int]]:
+    col = pos[0] // CASE_SIZE
+    row = pos[1] // CASE_SIZE
     moves_list = []
-    col = int(pos[0] / 90)
-    row = int(pos[1] / 90)
 
     if board[row][col] == "Q":
-        moves_list = black_bishop_possible_moves(pos, board)
-        moves_list.extend(black_rook_possible_moves(pos, board))
+        moves_list = bishop_possible_moves(pos, board)
+        moves_list.extend(rook_possible_moves(pos, board))
     else:
-        moves_list = white_bishop_possible_moves(pos, board)
-        moves_list.extend(white_rook_possible_moves(pos, board))
+        moves_list = bishop_possible_moves(pos, board)
+        moves_list.extend(rook_possible_moves(pos, board))
+
     return moves_list
