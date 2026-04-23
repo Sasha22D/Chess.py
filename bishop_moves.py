@@ -1,88 +1,26 @@
-from utils import is_white_piece, is_black_piece
+from utils import is_white_piece, is_empty_case
+from init_game import CASE_SIZE
 
-def	black_bishop_possible_moves(pos: tuple[int, int], board):
-    moves_list = []
-    y = int(pos[0] / 90)
-    x = int(pos[1] / 90)
-    
-    i = x + 1
-    j = y + 1
-    while i <= 7 and j <= 7 and board[i][j] == "0":
-        moves_list.append([i, j])
-        i += 1
-        j += 1
-    if i <= 7 and j <= 7 and is_white_piece(i, j, board):
-        moves_list.append([i, j])
-    i = x - 1
-    j = y - 1
-    while i >= 0 and j >= 0 and board[i][j] == "0":
-        moves_list.append([i, j])
-        i -= 1
-        j -= 1
-    if i >= 0 and j >= 0 and is_white_piece(i, j, board):
-        moves_list.append([i, j])
-    i = x + 1
-    j = y - 1
-    while i <= 7 and j >= 0 and board[i][j] == "0":
-        moves_list.append([i, j])
-        i += 1
-        j -= 1
-    if i <= 7 and j >= 0 and is_white_piece(i, j, board):
-        moves_list.append([i, j])
-    i = x - 1
-    j = y + 1
-    while i >= 0 and j <= 7 and board[i][j] == "0":
-        moves_list.append([i, j])
-        i -= 1
-        j += 1
-    if i >= 0 and j <= 7 and is_white_piece(i, j, board):
-        moves_list.append([i, j])
-    return moves_list
+def bishop_possible_moves(pos: tuple[int, int], board: list[list[str]]) -> list[list[int]]:
+    col = pos[0] // CASE_SIZE
+    row = pos[1] // CASE_SIZE
+    is_white = is_white_piece(row, col, board)
+    moves = []
 
-def	white_bishop_possible_moves(pos: tuple[int, int], board):
-    moves_list = []
-    y = int(pos[0] / 90)
-    x = int(pos[1] / 90)
-    
-    i = x + 1
-    j = y + 1
-    while i <= 7 and j <= 7 and board[i][j] == "0":
-        moves_list.append([i, j])
-        i += 1
-        j += 1
-    if i <= 7 and j <= 7 and is_black_piece(i, j, board):
-        moves_list.append([i, j])
-    i = x - 1
-    j = y - 1
-    while i >= 0 and j >= 0 and board[i][j] == "0":
-        moves_list.append([i, j])
-        i -= 1
-        j -= 1
-    if i <= 7 and j >= 0 and is_black_piece(i, j, board):
-        moves_list.append([i, j])
-    i = x + 1
-    j = y - 1
-    while i <= 7 and j >= 0 and board[i][j] == "0":
-        moves_list.append([i, j])
-        i += 1
-        j -= 1
-    if i <= 7 and j >= 0 and is_black_piece(i, j, board):
-        moves_list.append([i, j])
-    i = x - 1
-    j = y + 1
-    while i >= 0 and j <= 7 and board[i][j] == "0":
-        moves_list.append([i, j])
-        i -= 1
-        j += 1
-    if i >= 0 and j <= 7 and is_black_piece(i, j, board):
-        moves_list.append([i, j])
-    return moves_list
+    directions = [(1, 1), (-1, -1), (1, -1), (-1, 1)]
 
-def bishop_possible_moves(pos: tuple[int, int], board):
-    col = int(pos[0] / 90)
-    row = int(pos[1] / 90)
+    for delta_row, delta_col in directions:
+        current_row, current_col = row + delta_row, col + delta_col
 
-    if board[row][col] == "B":
-        return black_bishop_possible_moves(pos, board)
-    else:
-        return white_bishop_possible_moves(pos, board)
+        while 0 <= current_row <= 7 and 0 <= current_col <= 7:
+            if is_empty_case(current_row, current_col, board):
+                moves.append([current_row, current_col])
+                current_row += delta_row
+                current_col += delta_col
+            elif is_white_piece(current_row, current_col, board) != is_white:
+                moves.append([current_row, current_col])
+                break
+            else:
+                break
+
+    return moves
