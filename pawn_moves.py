@@ -1,7 +1,7 @@
 from utils import is_white_piece, is_black_piece
 from init_game import CASE_SIZE
 
-def black_pawn_possible_moves(pos : tuple[int, int], board):
+def black_pawn_possible_moves(pos : tuple[int, int], board: list[list[str]]) -> list[list[int]]:
     moves_list = []
     col = pos[0] // CASE_SIZE
     row = pos[1] // CASE_SIZE
@@ -17,7 +17,7 @@ def black_pawn_possible_moves(pos : tuple[int, int], board):
         moves_list.append([row  + 2, col])
     return moves_list
 
-def white_pawn_possible_moves(pos : tuple[int, int], board):
+def white_pawn_possible_moves(pos : tuple[int, int], board: list[list[str]]) -> list[list[int]]:
     moves_list = []
     col = pos[0] // CASE_SIZE
     row = pos[1] // CASE_SIZE
@@ -34,7 +34,7 @@ def white_pawn_possible_moves(pos : tuple[int, int], board):
     return moves_list
     
 
-def pawn_possible_moves(pos: tuple[int, int], board):
+def pawn_possible_moves(pos: tuple[int, int], board: list[list[str]]) -> list[list[int]]:
     col = pos[0] // CASE_SIZE
     row = pos[1] // CASE_SIZE
 

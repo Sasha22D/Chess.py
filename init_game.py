@@ -35,7 +35,7 @@ white_king_image = pygame.transform.scale(white_king_image, (90, 90))
 black_king_image = pygame.image.load("./assets/bk.png").convert_alpha()
 black_king_image = pygame.transform.scale(black_king_image, (90, 90))
 
-def	init_board(board):
+def	init_board(board: list[list[str]]) -> list[list[str]]:
     board = [
         ["R", "N", "B", "K", "Q", "B", "N", "R"],
         ["P", "P", "P", "P", "P", "P", "P", "P"],
@@ -48,36 +48,36 @@ def	init_board(board):
     ]
     return board
 
-def render_pieces(board):
+def render_pieces(board: list[list[str]]) -> None:
     for i in range(0, 8):
         for j in range(0, 8):
             case = board[i][j]
             if case == "p":
-                window.blit(white_pawn_image, (j * 90, i * 90))
+                window.blit(white_pawn_image, (j * CASE_SIZE, i * CASE_SIZE))
             elif case == "P":
-                window.blit(black_pawn_image, (j * 90, i * 90))
+                window.blit(black_pawn_image, (j * CASE_SIZE, i * CASE_SIZE))
             elif case == "r":
-                window.blit(white_rook_image, (j * 90, i * 90))
+                window.blit(white_rook_image, (j * CASE_SIZE, i * CASE_SIZE))
             elif case == "R":
-                window.blit(black_rook_image, (j * 90, i * 90))
+                window.blit(black_rook_image, (j * CASE_SIZE, i * CASE_SIZE))
             elif case == "n":
-                window.blit(white_knight_image, (j * 90, i * 90))
+                window.blit(white_knight_image, (j * CASE_SIZE, i * CASE_SIZE))
             elif case == "N":
-                window.blit(black_knight_image, (j * 90, i * 90))
+                window.blit(black_knight_image, (j * CASE_SIZE, i * CASE_SIZE))
             elif case == "b":
-                window.blit(white_bishop_image, (j * 90, i * 90))
+                window.blit(white_bishop_image, (j * CASE_SIZE, i * CASE_SIZE))
             elif case == "B":
-                window.blit(black_bishop_image, (j * 90, i * 90))
+                window.blit(black_bishop_image, (j * CASE_SIZE, i * CASE_SIZE))
             elif case == "q":
-                window.blit(white_queen_image, (j * 90, i * 90))
+                window.blit(white_queen_image, (j * CASE_SIZE, i * CASE_SIZE))
             elif case == "Q":
-                window.blit(black_queen_image, (j * 90, i * 90))
+                window.blit(black_queen_image, (j * CASE_SIZE, i * CASE_SIZE))
             elif case == "k":
-                window.blit(white_king_image, (j * 90, i * 90))
+                window.blit(white_king_image, (j * CASE_SIZE, i * CASE_SIZE))
             elif case == "K":
-                window.blit(black_king_image, (j * 90, i * 90))
+                window.blit(black_king_image, (j * CASE_SIZE, i * CASE_SIZE))
 
-def render_board(board):
+def render_board(board: list[list[str]]) -> None:
     rowPair = True
     for i in range(8):
         if rowPair == True:
