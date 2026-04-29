@@ -1,183 +1,143 @@
-from utils import is_white_piece, is_black_piece
+from utils import is_white_piece, is_empty_case
+from init_game import CASE_SIZE
 
-def is_black_bishop_check(row, col, board):
-    stash_row = row
-    stash_col = col
+def pawn_check(pos: tuple[int, int], board: list[list[str]]) -> bool:
+    col = pos[0] // CASE_SIZE
+    row = pos[1] // CASE_SIZE
+    is_white = is_white_piece(row, col, board)
 
-    row -= 1
-    col -= 1
-    while row >= 0 and col >= 0 and board[row][col] == "0":
-        row -= 1
-        col -= 1
-    if row >= 0 and col >= 0 and board[row][col] == "B":
-        return True
-    row = stash_row - 1
-    col = stash_col + 1
-    while row >= 0 and col <= 7 and board[row][col] == "0":
-        row -= 1
-        col += 1
-    if row >= 0 and col <= 7 and board[row][col] == "B":
-        return True
-    row = stash_row + 1
-    col = stash_col + 1
-    while row <= 7 and col <= 7 and board[row][col] == "0":
-        row += 1
-        col += 1
-    if row <= 7 and col <= 7 and board[row][col] == "B":
-        return True
-    row = stash_row + 1
-    col = stash_col - 1
-    while row <= 7 and col >= 0 and board[row][col] == "0":
-        row += 1
-        col -= 1
-    if row <= 7 and col >= 0 and board[row][col] == "B":
-        return True
+    if is_white:
+        if 0 <= row - 1 <= 7 and 0 <= col - 1 <= 7:
+            if board[row - 1][col - 1] == "P":
+                return True
+        if 0 <= row - 1 <= 7 and 0 <= col + 1 <= 7:
+            if board[row - 1][col + 1] == "P":
+                return True
+    else:
+        if 0 <= row + 1 <= 7 and 0 <= col + 1 <= 7:
+            if board[row + 1][col + 1] == "p":
+                return True
+        if 0 <= row + 1 <= 7 and 0 <= col - 1 <= 7:
+            if board[row + 1][col - 1] == "p":
+                return True
+
     return False
 
-def is_white_bishop_check(row, col, board):
-    stash_row = row
-    stash_col = col
+def bishop_check(pos: tuple[int, int], board: list[list[str]]) -> bool:
+    col = pos[0] // CASE_SIZE
+    row = pos[1] // CASE_SIZE
+    is_white = is_white_piece(row, col, board)
+    directions = [(-1, -1), (1, 1), (1, -1), (-1, 1)]
 
-    row -= 1
-    col -= 1
-    while row >= 0 and col >= 0 and board[row][col] == "0":
-        row -= 1
-        col -= 1
-    if row >= 0 and col >= 0 and board[row][col] == "b":
-        return True
-    row = stash_row - 1
-    col = stash_col + 1
-    while row >= 0 and col <= 7 and board[row][col] == "0":
-        row -= 1
-        col += 1
-    if row >= 0 and col <= 7 and board[row][col] == "b":
-        return True
-    row = stash_row + 1
-    col = stash_col + 1
-    while row <= 7 and col <= 7 and board[row][col] == "0":
-        row += 1
-        col += 1
-    if row <= 7 and col <= 7 and board[row][col] == "b":
-        return True
-    row = stash_row + 1
-    col = stash_col - 1
-    while row <= 7 and col >= 0 and board[row][col] == "0":
-        row += 1
-        col -= 1
-    if row <= 7 and col >= 0 and board[row][col] == "b":
-        return True
+    for delta_row, delta_col in directions:
+        current_row, current_col = row + delta_row, col + delta_col
+        while 0 <= current_row <= 7 and 0 <= current_col <= 7:
+            if board[current_row][current_col] == "B" or board[current_row][current_col] == "b":
+                if is_white_piece(current_row, current_col, board) != is_white:
+                    return True
+            elif is_empty_case(current_row, current_col, board) == False:
+                break
+            current_row += delta_row
+            current_col += delta_col
+
     return False
 
-def is_black_rook_check(row, col, board):
-    stash_row = row
-    stash_col = col
+def rook_check(pos: tuple[int, int], board: list[list[str]]) -> bool:
+    col = pos[0] // CASE_SIZE
+    row = pos[1] // CASE_SIZE
+    is_white = is_white_piece(row, col, board)
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
-    row -= 1
-    while row >= 0 and board[row][col] == "0":
-        row -= 1
-    if row >= 0 and board[row][col] == "R":
-        return True
-    row = stash_row + 1
-    while row <= 7 and board[row][col] == "0":
-        row += 1
-    if row <= 7 and board[row][col] == "R":
-        return True
-    row = stash_row
-    col -= 1
-    while col >= 0 and board[row][col] == "0":
-        col -= 1
-    if col >= 0 and board[row][col] == "R":
-        return True
-    col = stash_col + 1
-    while col <= 7 and board[row][col] == "0":
-        col += 1
-    if col <= 7 and board[row][col] == "R":
-        return True
+    for delta_row, delta_col in directions:
+        current_row, current_col = row + delta_row, col + delta_col
+        while 0 <= current_row <= 7 and 0 <= current_col <= 7:
+            if board[current_row][current_col] == "R" or board[current_row][current_col] == "r":
+                if is_white_piece(current_row, current_col, board) != is_white:
+                    return True
+            elif is_empty_case(current_row, current_col, board) == False:
+                break
+            current_row += delta_row
+            current_col += delta_col
+
     return False
 
-def is_white_rook_check(row, col, board):
-    stash_row = row
-    stash_col = col
+def knight_check(pos: tuple[int, int], board: list[list[str]]) -> bool:
+    col = pos[0] // CASE_SIZE
+    row = pos[1] // CASE_SIZE
+    is_white = is_white_piece(row, col, board)
+    directions = [(-2, -1), (-2, 1), (2, -1), (2, 1), (1, 2), (1, -2), (-1, 2), (-1, -2)]
 
-    row -= 1
-    while row >= 0 and board[row][col] == "0":
-        row -= 1
-    if row >= 0 and board[row][col] == "r":
-        return True
-    row = stash_row + 1
-    while row <= 7 and board[row][col] == "0":
-        row += 1
-    if row <= 7 and board[row][col] == "r":
-        return True
-    row = stash_row
-    col -= 1
-    while col >= 0 and board[row][col] == "0":
-        col -= 1
-    if col >= 0 and board[row][col] == "r":
-        return True
-    col = stash_col + 1
-    while col <= 7 and board[row][col] == "0":
-        col += 1
-    if col <= 7 and board[row][col] == "r":
-        return True
+    for delta_row, delta_col in directions:
+        current_row, current_col = row + delta_row, col + delta_col
+        if 0 <= current_row <= 7 and 0 <= current_col <= 7:
+            if board[current_row][current_col] == "N" or board[current_row][current_col] == "n":
+                if is_white_piece(current_row, current_col, board) != is_white:
+                    return True
+            current_row += delta_row
+            current_col += delta_col
+
     return False
 
-def is_black_knight_check(row, col, board):
-    if row - 2 >= 0 and col - 1 >= 0 and board[row - 2][col - 1] == "N":
-        return True
-    if row - 2 >= 0 and col + 1 <= 7 and board[row - 2][col + 1] == "N":
-        return True
-    if row + 2 <= 7 and col + 1 <= 7 and board[row + 2][col + 1] == "N":
-        return True
-    if row + 2 <= 7 and col - 1 >= 0 and board[row + 2][col - 1] == "N":
-        return True
+def king_check(pos: tuple[int, int], board: list[list[str]]) -> bool:
+    col = pos[0] // CASE_SIZE
+    row = pos[1] // CASE_SIZE
+    is_white = is_white_piece(row, col, board)
+    directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+
+    for delta_row, delta_col in directions:
+        current_row, current_col = row + delta_row, col + delta_col
+
+        if 0 <= current_row <= 7 and 0 <= current_col <= 7:
+            if board[current_row][current_col] == "K" or board[current_row][current_col] == "k":
+                if is_white_piece(current_row, current_col, board) != is_white:
+                    return True
+    
     return False
 
-def is_white_knight_check(row, col, board):
-    if row - 2 >= 0 and col - 1 >= 0 and board[row - 2][col - 1] == "n":
-        return True
-    if row - 2 >= 0 and col + 1 <= 7 and board[row - 2][col + 1] == "n":
-        return True
-    if row + 2 <= 7 and col + 1 <= 7 and board[row + 2][col + 1] == "n":
-        return True
-    if row + 2 <= 7 and col - 1 >= 0 and board[row + 2][col - 1] == "n":
-        return True
+def queen_check(pos: tuple[int, int], board: list[list[str]]) -> bool:
+    col = pos[0] // CASE_SIZE
+    row = pos[1] // CASE_SIZE
+    is_white = is_white_piece(row, col, board)
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+    for delta_row, delta_col in directions:
+        current_row, current_col = row + delta_row, col + delta_col
+        while 0 <= current_row <= 7 and 0 <= current_col <= 7:
+            if board[current_row][current_col] == "Q" or board[current_row][current_col] == "q":
+                if is_white_piece(current_row, current_col, board) != is_white:
+                    return True
+            elif is_empty_case(current_row, current_col, board) == False:
+                break
+            current_row += delta_row
+            current_col += delta_col
+
+    directions = [(-1, -1), (1, 1), (1, -1), (-1, 1)]
+
+    for delta_row, delta_col in directions:
+        current_row, current_col = row + delta_row, col + delta_col
+        while 0 <= current_row <= 7 and 0 <= current_col <= 7:
+            if board[current_row][current_col] == "Q" or board[current_row][current_col] == "q":
+                if is_white_piece(current_row, current_col, board) != is_white:
+                    return True
+            elif is_empty_case(current_row, current_col, board) == False:
+                break
+            current_row += delta_row
+            current_col += delta_col
+
     return False
 
-def is_black_pawn_check(row, col, board):
-    if row + 1 <= 7 and col + 1 <= 7 and board[row + 1][col + 1] == "P":
-        return True
-    if row + 1 <= 7 and col - 1 >= 0 and board[row + 1][col - 1] == "P":
-        return True
-    return False
+def is_check(pos: tuple[int, int], board: list[list[str]]) -> bool:
 
-def is_white_pawn_check(row, col, board):
-    if row - 1 >= 0 and col - 1 >= 0 and board[row - 1][col - 1] == "p":
+    if pawn_check(pos, board):
         return True
-    if row - 1 >= 0 and col + 1 <= 7 and board[row - 1][col + 1] == "p":
+    elif rook_check(pos, board):
         return True
-    return False
-
-def is_check(pos: tuple[int, int], board, color):
-    col = int(pos[0] / 90)
-    row = int(pos[1] / 90)
-
-    if color == "black":
-        if is_white_bishop_check(row, col, board) == True:
-            return True
-        if is_white_rook_check(row, col, board) == True:
-            return True
-        if is_white_knight_check(row, col, board) == True:
-            return True
-        if is_white_pawn_check(row, col, board) == True:
-            return True
-    elif color == "white":
-        if is_black_bishop_check(row, col, board) == True:
-            return True
-        if is_black_rook_check(row, col, board) == True:
-            return True
-        if is_black_knight_check(row, col, board) == True:
-            return True
-        if is_black_pawn_check(row, col, board) == True:
-            return True
+    elif knight_check(pos, board):
+        return True
+    elif bishop_check(pos, board):
+        return True
+    elif king_check(pos, board):
+        return True
+    elif queen_check(pos, board):
+        return True
     return False
