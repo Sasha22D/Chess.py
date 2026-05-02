@@ -1,62 +1,21 @@
-from check_functions import is_check
-from utils import is_white_piece, is_black_piece
+from utils import is_white_piece, is_empty_case
+from init_game import CASE_SIZE
 
-def black_king_possible_moves(pos: tuple[int, int], board):
+def king_possible_moves(pos: tuple[int, int], board: list[list[str]]) -> list[list[int]]:
+    col = pos[0] // CASE_SIZE
+    row = pos[1] // CASE_SIZE
+    is_white = is_white_piece(row, col, board)
     moves_list = []
-    col = int(pos[0] / 90)
-    row = int(pos[1] / 90)
+    directions = [(-1, -1), (-1, 0), (-1, 1),
+                  (0, -1), (0, 1),
+                  (1, -1), (1, 0), (1, 1)]
 
-    if row - 1 >= 0:
-        if col - 1 >= 0 and not is_check([row - 1, col - 1], board, "black") and (is_white_piece(row - 1, col - 1, board) or board[row - 1][col - 1] == "0"):
-            moves_list.append([row - 1, col - 1])
-        if not is_check([row - 1, col], board, "black") and (is_white_piece(row - 1, col, board) or board[row - 1][col] == "0"):
-            moves_list.append([row - 1, col])
-        if col + 1 <= 7 and not is_check([row - 1, col + 1], board, "black") and (is_white_piece(row - 1, col + 1, board) or board[row - 1][col + 1] == "0"):
-            moves_list.append([row - 1, col + 1])
-    if col - 1 >= 0 and not is_check([row, col - 1], board, "black") and (is_white_piece(row, col - 1, board) or board[row][col - 1] == "0"):
-        moves_list.append([row, col - 1])
-    if col + 1 <= 7 and not is_check([row, col + 1], board, "black") and (is_white_piece(row, col + 1, board) or board[row][col + 1] == "0"):
-        moves_list.append([row, col + 1])
-    if row + 1 <= 7:
-        if col - 1 >= 0 and not is_check([row + 1, col - 1], board, "black") and (is_white_piece(row + 1, col - 1, board) or board[row + 1][col - 1] == "0"):
-            moves_list.append([row + 1, col - 1])
-        if not is_check([row + 1, col], board, "black") and (is_white_piece(row + 1, col, board) or board[row + 1][col] == "0"):
-            moves_list.append([row + 1, col])
-        if col + 1 <= 7 and not is_check([row + 1, col + 1], board, "black") and (is_white_piece(row + 1, col + 1, board) or board[row + 1][col + 1] == "0"):
-            moves_list.append([row + 1, col + 1])
+    for delta_row, delta_col in directions:
+        current_row, current_col = row + delta_row, col + delta_col
+        if 0 <= current_row <= 7 and 0 <= current_col <= 7:
+            if is_white_piece(current_row, current_col, board) != is_white:
+                moves_list.append([current_row, current_col])
+            if is_empty_case(current_row, current_col, board):
+                moves_list.append([current_row, current_col])
+
     return moves_list
-
-def white_king_possible_moves(pos: tuple[int, int], board):
-    moves_list = []
-    col = int(pos[0] / 90)
-    row = int(pos[1] / 90)
-
-    if row - 1 >= 0:
-        if col - 1 >= 0 and not is_check([row - 1, col - 1], board, "white") and (is_black_piece(row - 1, col - 1, board) or board[row - 1][col - 1] == "0"):
-            moves_list.append([row - 1, col - 1])
-        if not is_check([row - 1, col], board, "white") and (is_black_piece(row - 1, col, board) or board[row - 1][col] == "0"):
-            moves_list.append([row - 1, col])
-        if col + 1 <= 7 and not is_check([row - 1, col + 1], board, "white") and (is_black_piece(row - 1, col + 1, board) or board[row - 1][col + 1] == "0"):
-            moves_list.append([row - 1, col + 1])
-    if col - 1 >= 0 and not is_check([row, col - 1], board, "white") and (is_black_piece(row, col - 1, board) or board[row][col - 1] == "0"):
-        moves_list.append([row, col - 1])
-    if col + 1 <= 7 and not is_check([row, col + 1], board, "white") and (is_black_piece(row, col + 1, board) or board[row][col + 1] == "0"):
-        moves_list.append([row, col + 1])
-    if row + 1 <= 7:
-        if col - 1 >= 0 and not is_check([row + 1, col - 1], board, "white") and (is_black_piece(row + 1, col - 1, board) or board[row + 1][col - 1] == "0"):
-            moves_list.append([row + 1, col - 1])
-        if not is_check([row + 1, col], board, "white") and (is_black_piece(row + 1, col, board) or board[row + 1][col] == "0"):
-            moves_list.append([row + 1, col])
-        if col + 1 <= 7 and not is_check([row + 1, col + 1], board, "white") and (is_black_piece(row + 1, col + 1, board) or board[row + 1][col + 1] == "0"):
-            moves_list.append([row + 1, col + 1])
-    return moves_list
-    
-
-def king_possible_moves(pos: tuple[int, int], board):
-    col = int(pos[0] / 90)
-    row = int(pos[1] / 90)
-
-    if board[row][col] == "K":
-        return black_king_possible_moves(pos, board)
-    else:
-        return white_king_possible_moves(pos, board)
