@@ -35,7 +35,7 @@ def bishop_check(pos: tuple[int, int], board: list[list[str]]) -> bool:
             if board[current_row][current_col] == "B" or board[current_row][current_col] == "b":
                 if is_white_piece(current_row, current_col, board) != is_white:
                     return True
-            elif is_empty_case(current_row, current_col, board) == False:
+            if is_empty_case(current_row, current_col, board) == False:
                 break
             current_row += delta_row
             current_col += delta_col
@@ -54,7 +54,7 @@ def rook_check(pos: tuple[int, int], board: list[list[str]]) -> bool:
             if board[current_row][current_col] == "R" or board[current_row][current_col] == "r":
                 if is_white_piece(current_row, current_col, board) != is_white:
                     return True
-            elif is_empty_case(current_row, current_col, board) == False:
+            if is_empty_case(current_row, current_col, board) == False:
                 break
             current_row += delta_row
             current_col += delta_col
@@ -106,7 +106,7 @@ def queen_check(pos: tuple[int, int], board: list[list[str]]) -> bool:
             if board[current_row][current_col] == "Q" or board[current_row][current_col] == "q":
                 if is_white_piece(current_row, current_col, board) != is_white:
                     return True
-            elif is_empty_case(current_row, current_col, board) == False:
+            if is_empty_case(current_row, current_col, board) == False:
                 break
             current_row += delta_row
             current_col += delta_col
@@ -119,7 +119,7 @@ def queen_check(pos: tuple[int, int], board: list[list[str]]) -> bool:
             if board[current_row][current_col] == "Q" or board[current_row][current_col] == "q":
                 if is_white_piece(current_row, current_col, board) != is_white:
                     return True
-            elif is_empty_case(current_row, current_col, board) == False:
+            if is_empty_case(current_row, current_col, board) == False:
                 break
             current_row += delta_row
             current_col += delta_col
