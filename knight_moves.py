@@ -11,15 +11,12 @@ def knight_possible_moves(pos: tuple[int, int], board: list[list[str]]) -> list[
     for delta_row, delta_col in directions:
         current_row, current_col = row + delta_row, col + delta_col
 
-        while 0 <= current_row <= 7 and 0 <= current_col <= 7:
+        if 0 <= current_row <= 7 and 0 <= current_col <= 7:
             if is_empty_case(current_row, current_col, board):
                 moves_list.append([current_row, current_col])
                 current_row += delta_row
                 current_col += delta_col
             elif is_white_piece(current_row, current_col, board) != is_white:
                 moves_list.append([current_row, current_col])
-                break
-            else:
-                break
         
     return moves_list
