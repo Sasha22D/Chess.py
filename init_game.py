@@ -6,38 +6,38 @@ clock = pygame.time.Clock()
 CASE_SIZE = 90
 
 white_pawn_image = pygame.image.load("./assets/wp.png").convert_alpha()
-white_pawn_image = pygame.transform.scale(white_pawn_image, (90, 90))
+white_pawn_image = pygame.transform.scale(white_pawn_image, (CASE_SIZE, CASE_SIZE))
 black_pawn_image = pygame.image.load("./assets/bp.png").convert_alpha()
-black_pawn_image = pygame.transform.scale(black_pawn_image, (90, 90))
+black_pawn_image = pygame.transform.scale(black_pawn_image, (CASE_SIZE, CASE_SIZE))
 
 white_rook_image = pygame.image.load("./assets/wr.png").convert_alpha()
-white_rook_image = pygame.transform.scale(white_rook_image, (90, 90))
+white_rook_image = pygame.transform.scale(white_rook_image, (CASE_SIZE, CASE_SIZE))
 black_rook_image = pygame.image.load("./assets/br.png").convert_alpha()
-black_rook_image = pygame.transform.scale(black_rook_image, (90, 90))
+black_rook_image = pygame.transform.scale(black_rook_image, (CASE_SIZE, CASE_SIZE))
 
 white_knight_image = pygame.image.load("./assets/wn.png").convert_alpha()
-white_knight_image = pygame.transform.scale(white_knight_image, (90, 90))
+white_knight_image = pygame.transform.scale(white_knight_image, (CASE_SIZE, CASE_SIZE))
 black_knight_image = pygame.image.load("./assets/bn.png").convert_alpha()
-black_knight_image = pygame.transform.scale(black_knight_image, (90, 90))
+black_knight_image = pygame.transform.scale(black_knight_image, (CASE_SIZE, CASE_SIZE))
 
 white_bishop_image = pygame.image.load("./assets/wb.png").convert_alpha()
-white_bishop_image = pygame.transform.scale(white_bishop_image, (90, 90))
+white_bishop_image = pygame.transform.scale(white_bishop_image, (CASE_SIZE, CASE_SIZE))
 black_bishop_image = pygame.image.load("./assets/bb.png").convert_alpha()
-black_bishop_image = pygame.transform.scale(black_bishop_image, (90, 90))
+black_bishop_image = pygame.transform.scale(black_bishop_image, (CASE_SIZE, CASE_SIZE))
 
 white_queen_image = pygame.image.load("./assets/wq.png").convert_alpha()
-white_queen_image = pygame.transform.scale(white_queen_image, (90, 90))
+white_queen_image = pygame.transform.scale(white_queen_image, (CASE_SIZE, CASE_SIZE))
 black_queen_image = pygame.image.load("./assets/bq.png").convert_alpha()
-black_queen_image = pygame.transform.scale(black_queen_image, (90, 90))
+black_queen_image = pygame.transform.scale(black_queen_image, (CASE_SIZE, CASE_SIZE))
 
 white_king_image = pygame.image.load("./assets/wk.png").convert_alpha()
-white_king_image = pygame.transform.scale(white_king_image, (90, 90))
+white_king_image = pygame.transform.scale(white_king_image, (CASE_SIZE, CASE_SIZE))
 black_king_image = pygame.image.load("./assets/bk.png").convert_alpha()
-black_king_image = pygame.transform.scale(black_king_image, (90, 90))
+black_king_image = pygame.transform.scale(black_king_image, (CASE_SIZE, CASE_SIZE))
 
 def	init_board(board: list[list[str]]) -> list[list[str]]:
     board = [
-        ["R", "N", "B", "K", "Q", "B", "N", "R"],
+        ["R", "N", "B", "Q", "K", "B", "N", "R"],
         ["P", "P", "P", "P", "P", "P", "P", "P"],
         ["0", "0", "0", "0", "0", "0", "0", "0"],
         ["0", "0", "0", "0", "0", "0", "0", "0"],
