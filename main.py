@@ -6,7 +6,7 @@ from rook_moves import rook_possible_moves
 from knight_moves import knight_possible_moves
 from queen_moves import queen_possible_moves
 from king_moves import king_possible_moves
-from init_game import init_board, render_board, clock, CASE_SIZE
+from init_game import init_board, render_board, clock, window, CASE_SIZE
 from check_functions import is_check
 from utils import is_white_piece
 
@@ -41,10 +41,10 @@ def check_legal_move(pos: tuple[int, int], pos_second_click: tuple[int, int], bo
     for i in range(8):
         for j in range(8):
             if is_white and board_copy[i][j] == "k":
-                if is_check((j * 90, i * 90), board_copy):
+                if is_check((j * CASE_SIZE, i * CASE_SIZE), board_copy):
                     return False
             elif is_white == False and board_copy[i][j] == "K":
-                if is_check((j * 90, i * 90), board_copy):
+                if is_check((j * CASE_SIZE, i * CASE_SIZE), board_copy):
                     return False
 
     return True
@@ -71,9 +71,19 @@ def move_selected_piece(pos: tuple[int, int], pos_second_click: tuple[int, int],
     board[row][col] = "0"
     return board
 
-def	detect_click(pos: tuple[int, int], board):
+def display_moves(moves_list: list[list[int]], board: list[list[str]]) -> None:
+    render_board(board)
+    pygame.display.flip()
+    for move in moves_list:
+        circle_x = move[1] * CASE_SIZE + CASE_SIZE / 2
+        circle_y = move[0] * CASE_SIZE + CASE_SIZE / 2
+        pygame.draw.circle(window, "grey", (circle_x, circle_y), 10.0, 10)
+    pygame.display.flip()
+
+def	detect_click(pos: tuple[int, int], board: list[list[str]]) -> list[list[str]]:
     clicked = False
     moves_list = detect_selected_piece(pos, board)
+    display_moves(moves_list, board)
 
     while clicked == False:
         for event in pygame.event.get():
