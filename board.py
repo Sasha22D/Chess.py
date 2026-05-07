@@ -64,7 +64,7 @@ class ChessBoard:
         from_col, from_row = from_pos
         to_col, to_row = to_pos
         self.board[to_row][to_col] = self.board[from_row][from_col]
-        self.board[from_row][from_col] = "0"
+        self.board[from_row][from_col] = None
 
     def is_white_piece(self, row: int, col: int) -> bool:
         return self.board[row][col].color == "white"
