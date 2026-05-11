@@ -57,7 +57,7 @@ class ChessBoard:
             ],
         ]
 
-    def get_piece(self, row: int, col: int) -> Piece:
+    def get_piece(self, row: int, col: int) -> Piece | None:
         return self.board[row][col]
 
     def move_piece(self, from_pos: tuple[int, int], to_pos: tuple[int, int]) -> None:
