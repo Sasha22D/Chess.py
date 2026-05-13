@@ -20,7 +20,7 @@ def	main():
                 board.selected_piece = board.get_piece(pos[1] // board.CASE_SIZE, pos[0] // board.CASE_SIZE)
                 if board.selected_piece:
                     board.possible_moves = board.selected_piece.get_moves(board)
-        board.render_pieces(window)
+        board.render_board(window)
         pygame.display.flip()
         clock.tick(60)
 
