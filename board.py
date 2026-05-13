@@ -73,6 +73,16 @@ class ChessBoard:
                 if self.board[i][j]:
                     self.board[i][j].render_piece(self, window)
 
+    def render_board(self, window: pygame.Surface) -> None:
+        for row in range(8):
+            for col in range(8):
+                if (row + col) % 2 == 0:
+                    color = "beige"
+                else:
+                    color = "aquamarine4"
+                pygame.draw.rect(window, color, (row * self.CASE_SIZE, col * self.CASE_SIZE, self.CASE_SIZE, self.CASE_SIZE))
+        self.render_pieces(window)
+
     def is_white_piece(self, row: int, col: int) -> bool:
         return self.board[row][col].color == "white"
 
