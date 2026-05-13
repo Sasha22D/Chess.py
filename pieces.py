@@ -3,11 +3,17 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from board import ChessBoard
+import pygame
 
 class Piece:
-    def __init__(self, color: str, position: tuple[int, int]) -> None:
+    def __init__(self, color: str, position: tuple[int, int], image: pygame.Surface) -> None:
         self.color = color
         self.position = position
+        self.image = image
+
+    def render_piece(self, board: ChessBoard, window: pygame.display) -> None:
+        if self != None:
+            window.blit(self.image, (self.position[1] * board.CASE_SIZE, self.position[0] * board.CASE_SIZE))
 
     def get_moves(self, board: ChessBoard) -> list[list[int]]:
         raise NotImplementedError("Chaque pièce doit implémenter get_moves")
