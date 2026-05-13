@@ -1,12 +1,15 @@
 import pygame
 from board import ChessBoard
-# from pieces import *
-from init_game import *
+from pieces import *
+from assets import load_pieces_images
+
+from init_game import window, clock
 
 def	main():
     pygame.init()
     running = True
-    board = ChessBoard()
+    images = load_pieces_images(ChessBoard.CASE_SIZE)
+    board = ChessBoard(images)
 
     while running:
         for event in pygame.event.get():
@@ -17,6 +20,7 @@ def	main():
                 board.selected_piece = board.get_piece(pos[1] // board.CASE_SIZE, pos[0] // board.CASE_SIZE)
                 if board.selected_piece:
                     board.possible_moves = board.selected_piece.get_moves(board)
+        board.render_pieces(window)
         pygame.display.flip()
         clock.tick(60)
 
