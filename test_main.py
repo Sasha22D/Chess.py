@@ -3,7 +3,7 @@ from board import ChessBoard
 from pieces import *
 from assets import load_pieces_images
 
-window = pygame.display.set_mode((720, 720))
+window = pygame.display.set_mode((ChessBoard.CASE_SIZE * 8, ChessBoard.CASE_SIZE * 8))
 pygame.display.set_caption("Chess.py")
 clock = pygame.time.Clock()
 
