@@ -83,6 +83,12 @@ class ChessBoard:
                 pygame.draw.rect(window, color, (row * self.CASE_SIZE, col * self.CASE_SIZE, self.CASE_SIZE, self.CASE_SIZE))
         self.render_pieces(window)
 
+    def check_move(self, pos: tuple[int, int]) -> bool:
+        col, row = pos
+        row = row // self.CASE_SIZE
+        col = col // self.CASE_SIZE
+        return (row, col) in self.possible_moves
+
     def is_white_piece(self, row: int, col: int) -> bool:
         return self.board[row][col].color == "white"
 
