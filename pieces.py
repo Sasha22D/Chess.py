@@ -113,7 +113,7 @@ class Knight(Piece):
 
     def get_moves(self, board: ChessBoard) -> list[list[int]]:
         moves_list = []
-        col, row = self.position
+        row, col = self.position
         for delta_row, delta_col in self.directions:
             current_row, current_col = row + delta_row, col + delta_col
             if 0 <= current_row <= 7 and 0 <= current_col <= 7:
