@@ -61,11 +61,14 @@ class ChessBoard:
     def get_piece(self, row: int, col: int) -> Piece | None:
         return self.board[row][col]
 
-    def move_piece(self, from_pos: tuple[int, int], to_pos: tuple[int, int]) -> None:
-        from_col, from_row = from_pos
-        to_col, to_row = to_pos
+    def move_piece(self, piece: Piece, to_pos: tuple[int, int]) -> None:
+        from_row, from_col = piece.position
+        to_row = to_pos[1] // self.CASE_SIZE
+        to_col = to_pos[0] // self.CASE_SIZE
         self.board[to_row][to_col] = self.board[from_row][from_col]
         self.board[from_row][from_col] = None
+        piece.position = (to_row, to_col)
+        self.selected_piece = None
 
     def render_pieces(self, window: pygame.display):
         for i in range(8):
