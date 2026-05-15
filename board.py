@@ -8,7 +8,7 @@ class ChessBoard:
         self.images = images
         self.board = self._create_initial_board()
         self.selected_piece = None
-        self.possible_moves = []
+        self.possible_moves: list[tuple[int, int]] = []
 
     def _create_initial_board(self) -> list[list[Piece | None]]:
         return [
