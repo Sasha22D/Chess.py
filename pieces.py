@@ -15,7 +15,7 @@ class Piece:
         if self != None:
             window.blit(self.image, (self.position[1] * board.CASE_SIZE, self.position[0] * board.CASE_SIZE))
 
-    def get_moves(self, board: ChessBoard) -> list[list[int]]:
+    def get_moves(self, board: ChessBoard) -> list[tuple[int, int]]:
         raise NotImplementedError("Chaque pièce doit implémenter get_moves")
 
     def is_enemy(self, piece: Piece) -> bool:
@@ -24,39 +24,39 @@ class Piece:
         return self.color != piece.color
 
 class Pawn(Piece):
-    def get_moves(self, board: ChessBoard) -> list[list[int]]:
+    def get_moves(self, board: ChessBoard) -> list[tuple[int, int]]:
         moves_list = []
         row, col = self.position
         if self.color == "white":
             if row - 1 >= 0:
                 if board.board[row - 1][col] == None:
-                    moves_list.append([row - 1, col])
+                    moves_list.append((row - 1, col))
                 if col - 1 >= 0:
                     target = board.get_piece(row - 1, col - 1)
                     if self.is_enemy(target):
-                        moves_list.append([row - 1, col - 1])
+                        moves_list.append((row - 1, col - 1))
                 if col + 1 <= 7:
                     target = board.get_piece(row - 1, col + 1)
                     if self.is_enemy(target):
-                        moves_list.append([row - 1, col + 1])
+                        moves_list.append((row - 1, col + 1))
             if row - 2 >= 0 and row == 6:
                 if board.board[row - 2][col] == None and board.board[row - 1][col] == None:
-                    moves_list.append([row - 2, col])
+                    moves_list.append((row - 2, col))
         else:
             if row + 1 <= 7:
                 if board.board[row + 1][col] == None:
-                    moves_list.append([row + 1, col])
+                    moves_list.append((row + 1, col))
                 if col - 1 >= 0:
                     target = board.get_piece(row + 1, col - 1)
                     if self.is_enemy(target):
-                        moves_list.append([row + 1, col - 1])
+                        moves_list.append((row + 1, col - 1))
                 if col + 1 <= 7:
                     target = board.get_piece(row + 1, col + 1)
                     if self.is_enemy(target):
-                        moves_list.append([row + 1, col + 1])
+                        moves_list.append((row + 1, col + 1))
             if row + 2 <= 7 and row == 1:
                 if board.board[row + 2][col] == None and board.board[row + 1][col] == None:
-                    moves_list.append([row  + 2, col])
+                    moves_list.append((row + 2, col))
         return moves_list
 
 class Rook(Piece):
@@ -64,7 +64,7 @@ class Rook(Piece):
         (1, 0), (-1, 0), (0, -1), (0, 1)
     ]
 
-    def get_moves(self, board: ChessBoard) -> list[list[int]]:
+    def get_moves(self, board: ChessBoard) -> list[tuple[int, int]]:
         moves_list = []
         row, col = self.position
         for delta_row, delta_col in self.directions:
@@ -72,11 +72,11 @@ class Rook(Piece):
             while 0 <= current_row <= 7 and 0 <= current_col <= 7:
                 target = board.get_piece(current_row, current_col)
                 if board.is_empty_case(current_row, current_col):
-                    moves_list.append([current_row, current_col])
+                    moves_list.append((current_row, current_col))
                     current_row += delta_row
                     current_col += delta_col
                 elif self.is_enemy(target):
-                    moves_list.append([current_row, current_col])
+                    moves_list.append((current_row, current_col))
                     break
                 else:
                     break
@@ -87,7 +87,7 @@ class Bishop(Piece):
         (1, 1), (1, -1), (-1, -1), (-1, 1)
     ]
 
-    def get_moves(self, board: ChessBoard) -> list[list[int]]:
+    def get_moves(self, board: ChessBoard) -> list[tuple[int, int]]:
         moves_list = []
         row, col = self.position
         for delta_row, delta_col in self.directions:
@@ -95,11 +95,11 @@ class Bishop(Piece):
             while 0 <= current_row <= 7 and 0 <= current_col <= 7:
                 target = board.get_piece(current_row, current_col)
                 if board.is_empty_case(current_row, current_col):
-                    moves_list.append([current_row, current_col])
+                    moves_list.append((current_row, current_col))
                     current_row += delta_row
                     current_col += delta_col
                 elif self.is_enemy(target):
-                    moves_list.append([current_row, current_col])
+                    moves_list.append((current_row, current_col))
                     break
                 else:
                     break
@@ -111,7 +111,7 @@ class Knight(Piece):
         (2, -1), (2, 1), (1, -2), (1, 2)
     ]
 
-    def get_moves(self, board: ChessBoard) -> list[list[int]]:
+    def get_moves(self, board: ChessBoard) -> list[tuple[int, int]]:
         moves_list = []
         row, col = self.position
         for delta_row, delta_col in self.directions:
@@ -119,7 +119,7 @@ class Knight(Piece):
             if 0 <= current_row <= 7 and 0 <= current_col <= 7:
                 target = board.get_piece(current_row, current_col)
                 if target == None or self.is_enemy(target):
-                    moves_list.append([current_row, current_col])
+                    moves_list.append((current_row, current_col))
         return moves_list
 
 class Queen(Piece):
@@ -129,7 +129,7 @@ class Queen(Piece):
         (1, -1), (1, 0), (1, 1)
     ]
 
-    def get_moves(self, board: ChessBoard) -> list[list[int]]:
+    def get_moves(self, board: ChessBoard) -> list[tuple[int, int]]:
         moves_list = []
         row, col = self.position
         for delta_row, delta_col in self.directions:
@@ -137,11 +137,11 @@ class Queen(Piece):
             while 0 <= current_row <= 7 and 0 <= current_col <= 7:
                 target = board.get_piece(current_row, current_col)
                 if board.is_empty_case(current_row, current_col):
-                    moves_list.append([current_row, current_col])
+                    moves_list.append((current_row, current_col))
                     current_row += delta_row
                     current_col += delta_col
                 elif self.is_enemy(target):
-                    moves_list.append([current_row, current_col])
+                    moves_list.append((current_row, current_col))
                     break
                 else:
                     break
@@ -154,7 +154,7 @@ class King(Piece):
         (1, -1), (1, 0), (1, 1)
     ]
 
-    def get_moves(self, board: ChessBoard) -> list[list[int]]:
+    def get_moves(self, board: ChessBoard) -> list[tuple[int, int]]:
         moves_list = []
         row, col = self.position
         for delta_row, delta_col in self.directions:
@@ -162,7 +162,7 @@ class King(Piece):
             if 0 <= current_row <= 7 and 0 <= current_col <= 7:
                 target = board.get_piece(current_row, current_col)
                 if self.is_enemy(target):
-                    moves_list.append([current_row, current_col])
+                    moves_list.append((current_row, current_col))
                 if board.is_empty_case(current_row, current_col):
-                    moves_list.append([current_row, current_col])
+                    moves_list.append((current_row, current_col))
         return moves_list
