@@ -19,9 +19,12 @@ def	main():
                 running = False
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-                board.selected_piece = board.get_piece(pos[1] // board.CASE_SIZE, pos[0] // board.CASE_SIZE)
-                if board.selected_piece:
-                    board.possible_moves = board.selected_piece.get_moves(board)
+                if board.check_move(pos) and board.selected_piece:
+                        board.move_piece(board.selected_piece, pos)
+                else:
+                    board.selected_piece = board.get_piece(pos[1] // board.CASE_SIZE, pos[0] // board.CASE_SIZE)
+                    if board.selected_piece:
+                        board.possible_moves = board.selected_piece.get_moves(board)
         board.render_board(window)
         pygame.display.flip()
         clock.tick(60)
